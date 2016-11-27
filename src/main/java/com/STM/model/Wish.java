@@ -23,6 +23,11 @@ public class Wish implements Serializable {
     private String publishTime;
     private String imageUrl;
     private String type;
+    private String grade;
+    private Integer valid;
+    private String invalidTime;
+    private String getCount;
+    private String access;
 
     @Id
     @Column(unique = true, nullable = false)
@@ -123,5 +128,50 @@ public class Wish implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Column
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    @Column
+    public Integer getValid() {
+        return valid;
+    }
+
+    public void setValid(Integer valid) {
+        this.valid = valid;
+    }
+
+    @Column
+    public String getInvalidTime() {
+        return invalidTime;
+    }
+
+    public void setInvalidTime(String invalidTime) {
+        this.invalidTime = invalidTime;
+    }
+
+    @Column
+    public String getGetCount() {
+        return getCount;
+    }
+
+    public void setGetCount(String getCount) {
+        this.getCount = getCount;
+    }
+
+    @Column
+    public String getAccess() {
+        return access;
+    }
+
+    public void setAccess(String access) {
+        this.access = access;
     }
 }

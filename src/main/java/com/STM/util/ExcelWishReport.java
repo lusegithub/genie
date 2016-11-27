@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.STM.model.Wish;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -32,32 +33,51 @@ public class ExcelWishReport extends AbstractExcelView{
 		HSSFSheet sheet = workbook.createSheet("WishExcel");
 
 		HSSFRow header = sheet.createRow(0);
-		header.createCell(0).setCellValue("编号");
-		header.createCell(1).setCellValue("昵称");
-        header.createCell(2).setCellValue("学校");
-        header.createCell(3).setCellValue("性别");
-        header.createCell(4).setCellValue("心愿类型");
-        header.createCell(5).setCellValue("心愿内容");
-        header.createCell(6).setCellValue("图片地址");
-        header.createCell(7).setCellValue("报答");
-        header.createCell(8).setCellValue("许愿时间");
-        header.createCell(9).setCellValue("联系类型");
-        header.createCell(10).setCellValue("联系方式");
+		header.createCell(0).setCellValue("id");
+		header.createCell(1).setCellValue("名字");
+        header.createCell(2).setCellValue("性别");
+        header.createCell(3).setCellValue("学校");
+        header.createCell(4).setCellValue("年级");
+        header.createCell(5).setCellValue("内容");
+        header.createCell(6).setCellValue("联系方式类型");
+        header.createCell(7).setCellValue("联系方式");
+        header.createCell(8).setCellValue("报酬");
+        header.createCell(9).setCellValue("发布时间");
+        header.createCell(10).setCellValue("图片地址");
+        header.createCell(11).setCellValue("心愿类型");
+        header.createCell(12).setCellValue("是否已下架(1表示未下架)");
+        header.createCell(13).setCellValue("下架时间");
+        header.createCell(14).setCellValue("获取次数");
+        header.createCell(15).setCellValue("是否允许其他公众号获取");
+
         HSSFCell cell;
         for (int i=0;i<wishes.size();i++){
             Wish wish=wishes.get(i);
             List<Object> list=new ArrayList<Object>();
             list.add(wish.getId()==null?"":wish.getId());
             list.add(wish.getName()==null?"":wish.getName());
-            list.add(wish.getSchool()==null?"":wish.getSchool());
             list.add(wish.getGender()==null?"":wish.getGender());
-            list.add(wish.getType()==null?"":wish.getType());
-            list.add(wish.getContent()==null?"":wish.getContent());
-            list.add(wish.getImageUrl()==null?"":wish.getImageUrl());
-            list.add(wish.getAward()==null?"":wish.getAward());
-            list.add(wish.getPublishTime()==null?"":wish.getPublishTime());
+            list.add(wish.getSchool()==null?"":wish.getSchool());
+            list.add(wish.getGrade()==null?"":wish.getGrade());
+            list.add(wish.getContent()==null?"":StringEscapeUtils.unescapeHtml(wish.getContent().replaceAll("&amp;","&")));
+
             list.add(wish.getContactType()==null?"":wish.getContactType());
             list.add(wish.getContact()==null?"":wish.getContact());
+            list.add(wish.getAward()==null?"":StringEscapeUtils.unescapeHtml(wish.getAward().replaceAll("&amp;","&")));
+            list.add(wish.getPublishTime()==null?"":wish.getPublishTime());
+            if(wish.getImageUrl()==null||wish.getImageUrl().equals("NULL")){
+                list.add("");
+            }else {
+                String[] temp = wish.getImageUrl().split("/");
+                String imageUrl = "genielink.cn/genie/server/wish/" + temp[4];
+                list.add(imageUrl);
+            }
+            list.add(wish.getType()==null?"":wish.getType());
+            list.add(wish.getValid()==null?"":wish.getValid());
+            list.add(wish.getInvalidTime()==null?"":wish.getInvalidTime());
+            list.add(wish.getGetCount()==null?"":wish.getGetCount());
+            list.add(wish.getAccess()==null?"":wish.getAccess());
+
             for (int j=0;j<list.size();j++){
                 cell = getCell(sheet, i+1, j);
                 String result=String.valueOf(list.get(j));

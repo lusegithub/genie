@@ -6,5 +6,8 @@
 	<bean id="ExcelWish"
 	   	class="com.STM.util.ExcelWishReport">
 	</bean>
+	<bean id="ExcelWhisper"
+		  class="com.STM.util.ExcelWhisperReport">
+	</bean>
  
 </beans>
