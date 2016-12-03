@@ -1,6 +1,8 @@
 package com.STM.action;
 
+import com.STM.model.User;
 import com.STM.model.Wish;
+import com.STM.service.UserService;
 import com.STM.service.WishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class WishController extends AbstractController {
 
     @Autowired
     private WishService wishService;
+    @Autowired
+    private UserService userService;
 
     @Override
     @RequestMapping(value = "/getWishData", method = RequestMethod.GET)
@@ -43,7 +47,16 @@ public class WishController extends AbstractController {
         String hql="from Wish w where w.publishTime between '"+start+" 17:00:00' and '"+end+" 17:00:00' and valid=1";
         List<Wish> wishes=wishService.getWishData(hql);
         if (wishes.size()==0) return null;
+        List<String> names= new ArrayList<>();
+        for (int i=0;i<wishes.size();i++){
+            String openid=wishes.get(i).getUserid();
+            String userhql="from User u where u.openid='"+openid+"'";
+            List<User> users=userService.getUsers(userhql);
+            names.add(users.get(0).getName());
+        }
+
         Map<String,Object> wishdata = new HashMap<String,Object>();
+        wishdata.put("names",names);
         wishdata.put("wishes",wishes);
         return new ModelAndView("ExcelWish","wishdata",wishdata);
     }

@@ -29,32 +29,36 @@ public class ExcelWishReport extends AbstractExcelView{
 
         Map<String,Object> wishData=(Map<String,Object>)model.get("wishdata");
 		List<Wish> wishes = (List<Wish>) wishData.get("wishes");
+        List<String> names=(List<String>)wishData.get("names");
 		//create a wordsheet
 		HSSFSheet sheet = workbook.createSheet("WishExcel");
 
 		HSSFRow header = sheet.createRow(0);
 		header.createCell(0).setCellValue("id");
-		header.createCell(1).setCellValue("名字");
-        header.createCell(2).setCellValue("性别");
-        header.createCell(3).setCellValue("学校");
-        header.createCell(4).setCellValue("年级");
-        header.createCell(5).setCellValue("内容");
-        header.createCell(6).setCellValue("联系方式类型");
-        header.createCell(7).setCellValue("联系方式");
-        header.createCell(8).setCellValue("报酬");
-        header.createCell(9).setCellValue("发布时间");
-        header.createCell(10).setCellValue("图片地址");
-        header.createCell(11).setCellValue("心愿类型");
-        header.createCell(12).setCellValue("是否已下架(1表示未下架)");
-        header.createCell(13).setCellValue("下架时间");
-        header.createCell(14).setCellValue("获取次数");
-        header.createCell(15).setCellValue("是否允许其他公众号获取");
+        header.createCell(1).setCellValue("微信昵称");
+		header.createCell(2).setCellValue("名字");
+        header.createCell(3).setCellValue("性别");
+        header.createCell(4).setCellValue("学校");
+        header.createCell(5).setCellValue("年级");
+        header.createCell(6).setCellValue("内容");
+        header.createCell(7).setCellValue("联系方式类型");
+        header.createCell(8).setCellValue("联系方式");
+        header.createCell(9).setCellValue("报酬");
+        header.createCell(10).setCellValue("发布时间");
+        header.createCell(11).setCellValue("图片地址");
+        header.createCell(12).setCellValue("心愿类型");
+        header.createCell(13).setCellValue("是否已下架(1表示未下架)");
+        header.createCell(14).setCellValue("下架时间");
+        header.createCell(15).setCellValue("获取次数");
+        header.createCell(16).setCellValue("是否允许其他公众号获取");
 
         HSSFCell cell;
         for (int i=0;i<wishes.size();i++){
             Wish wish=wishes.get(i);
+            String name=names.get(i);
             List<Object> list=new ArrayList<Object>();
             list.add(wish.getId()==null?"":wish.getId());
+            list.add(name);
             list.add(wish.getName()==null?"":wish.getName());
             list.add(wish.getGender()==null?"":wish.getGender());
             list.add(wish.getSchool()==null?"":wish.getSchool());

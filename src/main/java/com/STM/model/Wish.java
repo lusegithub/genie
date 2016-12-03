@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Table(name = "wish", schema = "genie")
 public class Wish implements Serializable {
     private Integer id;
+    private String userid;
     private String name;
     private String gender;
     private String school;
@@ -37,6 +38,15 @@ public class Wish implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Column
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     @Column
