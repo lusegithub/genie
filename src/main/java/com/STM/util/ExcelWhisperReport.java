@@ -29,23 +29,27 @@ public class ExcelWhisperReport extends AbstractExcelView {
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String,Object> whisperData=(Map<String,Object>)model.get("whisperData");
         List<Whisper> whispers = (List<Whisper>) whisperData.get("whispers");
+        List<String> names=(List<String>)whisperData.get("names");
         //create a wordsheet
         HSSFSheet sheet = workbook.createSheet("WhisperExcel");
 
         HSSFRow header = sheet.createRow(0);
         header.createCell(0).setCellValue("id");
-        header.createCell(1).setCellValue("内容");
-        header.createCell(2).setCellValue("是否匿名(0表示不匿名)");
-        header.createCell(3).setCellValue("联系方式类型");
-        header.createCell(4).setCellValue("联系方式");
-        header.createCell(5).setCellValue("发布时间");
-        header.createCell(6).setCellValue("是否审核通过(1表示通过)");
+        header.createCell(1).setCellValue("微信昵称");
+        header.createCell(2).setCellValue("内容");
+        header.createCell(3).setCellValue("是否匿名(0表示不匿名)");
+        header.createCell(4).setCellValue("联系方式类型");
+        header.createCell(5).setCellValue("联系方式");
+        header.createCell(6).setCellValue("发布时间");
+        header.createCell(7).setCellValue("是否审核通过(1表示通过)");
 
         HSSFCell cell;
         for (int i=0;i<whispers.size();i++){
             Whisper whisper=whispers.get(i);
+            String name=names.get(i);
             List<Object> list=new ArrayList<Object>();
             list.add(whisper.getId()==null?"":whisper.getId());
+            list.add(name);
             list.add(whisper.getContent()==null?"": StringEscapeUtils.unescapeHtml(whisper.getContent().replaceAll("&amp;","&")));
             list.add(whisper.getAnonymous()==null?"":whisper.getAnonymous());
             list.add(whisper.getContactType().equals("null")||whisper.getContactType()==null?"":whisper.getContactType());

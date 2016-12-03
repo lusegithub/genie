@@ -30,6 +30,7 @@ public class Whisper {
         this.id = id;
     }
 
+
     @Column
     public String getContent() {
         return content;
