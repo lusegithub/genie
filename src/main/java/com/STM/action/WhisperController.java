@@ -43,7 +43,7 @@ public class WhisperController extends AbstractController {
         String start=dd.format(startdate);
         String end=dd.format(enddate);
 
-        String hql="from Whisper w where w.publishTime between '"+start+" 17:00:00' and '"+end+" 17:00:00'";
+        String hql="from Whisper w where w.publishTime between '"+start+" 17:00:00' and '"+end+" 19:00:00'";
         List<Whisper> whispers=whisperService.getWhisperData(hql);
         if (whispers.size()==0) return null;
         List<String> names= new ArrayList<>();
@@ -51,7 +51,11 @@ public class WhisperController extends AbstractController {
             String openid=whispers.get(i).getOpenid();
             String userhql="from User u where u.openid='"+openid+"'";
             List<User> users=userService.getUsers(userhql);
-            names.add(users.get(0).getName());
+            if (users.size()==0){
+                names.add("");
+            }else {
+                names.add(users.get(0).getName());
+            }
         }
 
         Map<String,Object> whisperdata = new HashMap<String,Object>();
