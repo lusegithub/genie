@@ -43,7 +43,7 @@ public class WhisperController extends AbstractController {
         String start=dd.format(startdate);
         String end=dd.format(enddate);
 
-        String hql="from Whisper w where w.publishTime between '"+start+" 17:00:00' and '"+end+" 19:00:00'";
+        String hql="from Whisper w where w.publishTime between '"+start+" 17:00:00' and '"+end+" 19:00:00' and valid=1";
         List<Whisper> whispers=whisperService.getWhisperData(hql);
         if (whispers.size()==0) return null;
         List<String> names= new ArrayList<>();
